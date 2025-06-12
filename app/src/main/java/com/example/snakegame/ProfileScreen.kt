@@ -9,10 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WelcomeScreen(
-    onStartClick: () -> Unit,
-    onProfileClick: () -> Unit
-) {
+fun ProfileScreen(onBackToWelcome: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -24,16 +21,11 @@ fun WelcomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Змейка", fontSize = 36.sp)
+            Text("Профиль", fontSize = 32.sp)
             Spacer(modifier = Modifier.height(32.dp))
-            Button(onClick = onStartClick) {
-                Text("Играть")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedButton(onClick = onProfileClick) {
-                Text("Профиль")
+            Button(onClick = onBackToWelcome) {
+                Text("На главный экран")
             }
         }
     }
 }
-

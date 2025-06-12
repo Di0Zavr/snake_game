@@ -9,27 +9,38 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.snakegame.ui.theme.SnakeGameTheme
 
 class MainActivity : ComponentActivity() {
+
+    enum class Screen {
+        WELCOME, GAME, PROFILE
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SnakeGameTheme {
-                var isGameStarted by remember { mutableStateOf(false) }
+                var currentScreen by remember { mutableStateOf(Screen.WELCOME) }
 
-                if (!isGameStarted) {
-                    WelcomeScreen(
-                        onStartClick = { isGameStarted = true }
+                when (currentScreen) {
+                    Screen.WELCOME -> WelcomeScreen(
+                        onStartClick = { currentScreen = Screen.GAME },
+                        onProfileClick = { currentScreen = Screen.PROFILE }
                     )
-                } else {
-                    val viewModel = viewModel<SnakeGameViewModel>()
-                    val state by viewModel.state.collectAsStateWithLifecycle()
-                    SnakeGameScreen(
-                        state = state,
-                        onEvent = viewModel::onEvent
+                    Screen.GAME -> {
+                        val viewModel = viewModel<SnakeGameViewModel>()
+                        val state by viewModel.state.collectAsStateWithLifecycle()
+                        SnakeGameScreen(
+                            state = state,
+                            onEvent = viewModel::onEvent
+                        )
+                    }
+                    Screen.PROFILE -> ProfileScreen(
+                        onBackToWelcome = { currentScreen = Screen.WELCOME }
                     )
                 }
             }
         }
     }
 }
+
 
 
