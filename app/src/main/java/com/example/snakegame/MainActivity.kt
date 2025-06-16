@@ -11,16 +11,19 @@ import com.example.snakegame.ui.theme.SnakeGameTheme
 class MainActivity : ComponentActivity() {
 
     enum class Screen {
-        WELCOME, GAME, PROFILE
+        LOGIN, WELCOME, GAME, PROFILE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SnakeGameTheme {
-                var currentScreen by remember { mutableStateOf(Screen.WELCOME) }
+                var currentScreen by remember { mutableStateOf(Screen.LOGIN) }
 
                 when (currentScreen) {
+                    Screen.LOGIN -> LoginScreen(
+                        onLoginClick = { currentScreen = Screen.WELCOME }
+                    )
                     Screen.WELCOME -> WelcomeScreen(
                         onStartClick = { currentScreen = Screen.GAME },
                         onProfileClick = { currentScreen = Screen.PROFILE }
@@ -41,6 +44,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-
