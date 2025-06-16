@@ -11,16 +11,19 @@ import com.example.snakegame.ui.theme.SnakeGameTheme
 class MainActivity : ComponentActivity() {
 
     enum class Screen {
-        LOGIN, WELCOME, GAME, PROFILE
+        REGISTER, LOGIN, WELCOME, GAME, PROFILE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SnakeGameTheme {
-                var currentScreen by remember { mutableStateOf(Screen.LOGIN) }
+                var currentScreen by remember { mutableStateOf(Screen.REGISTER) }
 
                 when (currentScreen) {
+                    Screen.REGISTER -> RegisterScreen(
+                        onRegisterClick = { currentScreen = Screen.LOGIN }
+                    )
                     Screen.LOGIN -> LoginScreen(
                         onLoginClick = { currentScreen = Screen.WELCOME }
                     )
