@@ -9,11 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WelcomeScreen(
-    onStartClick: () -> Unit,
-    onProfileClick: () -> Unit,
-    onLeaderboardClick: () -> Unit
-) {
+fun LeaderboardScreen(onBackToWelcome: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -25,23 +21,11 @@ fun WelcomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Добро пожаловать в Змейку!", fontSize = 28.sp)
+            Text("Лидерборд", fontSize = 32.sp)
             Spacer(modifier = Modifier.height(32.dp))
 
-            Button(onClick = onStartClick, modifier = Modifier.fillMaxWidth()) {
-                Text("Играть")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = onProfileClick, modifier = Modifier.fillMaxWidth()) {
-                Text("Профиль")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = onLeaderboardClick, modifier = Modifier.fillMaxWidth()) {
-                Text("Лидерборд")
+            Button(onClick = onBackToWelcome) {
+                Text("Назад")
             }
         }
     }

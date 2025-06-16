@@ -11,7 +11,7 @@ import com.example.snakegame.ui.theme.SnakeGameTheme
 class MainActivity : ComponentActivity() {
 
     enum class Screen {
-        REGISTER, LOGIN, WELCOME, GAME, PROFILE
+        REGISTER, LOGIN, WELCOME, GAME, PROFILE, LEADERBOARD
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     )
                     Screen.WELCOME -> WelcomeScreen(
                         onStartClick = { currentScreen = Screen.GAME },
-                        onProfileClick = { currentScreen = Screen.PROFILE }
+                        onProfileClick = { currentScreen = Screen.PROFILE },
+                        onLeaderboardClick = { currentScreen = Screen.LEADERBOARD }
                     )
                     Screen.GAME -> {
                         val viewModel = viewModel<SnakeGameViewModel>()
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     Screen.PROFILE -> ProfileScreen(
+                        onBackToWelcome = { currentScreen = Screen.WELCOME }
+                    )
+                    Screen.LEADERBOARD -> LeaderboardScreen(
                         onBackToWelcome = { currentScreen = Screen.WELCOME }
                     )
                 }
