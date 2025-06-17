@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.snakegame.auth.AuthViewModel
+import com.example.snakegame.auth.AuthViewModelFactory
 import com.example.snakegame.ui.theme.SnakeGameTheme
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 class MainActivity : ComponentActivity() {
 
@@ -16,22 +18,32 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             SnakeGameTheme {
                 var currentScreen by remember { mutableStateOf(Screen.REGISTER) }
+
+                // 👇 Инициализируем AuthViewModel с factory
+                val authViewModel: AuthViewModel = viewModel(
+                    factory = AuthViewModelFactory(application)
+                )
 
                 when (currentScreen) {
                     Screen.REGISTER -> RegisterScreen(
                         onRegisterClick = { currentScreen = Screen.LOGIN }
                     )
+
                     Screen.LOGIN -> LoginScreen(
-                        onLoginClick = { currentScreen = Screen.WELCOME }
+                        viewModel = authViewModel,
+                        onLoginSuccess = { currentScreen = Screen.WELCOME }
                     )
+
                     Screen.WELCOME -> WelcomeScreen(
                         onStartClick = { currentScreen = Screen.GAME },
                         onProfileClick = { currentScreen = Screen.PROFILE },
                         onLeaderboardClick = { currentScreen = Screen.LEADERBOARD }
                     )
+
                     Screen.GAME -> {
                         val viewModel = viewModel<SnakeGameViewModel>()
                         val state by viewModel.state.collectAsStateWithLifecycle()
@@ -40,9 +52,11 @@ class MainActivity : ComponentActivity() {
                             onEvent = viewModel::onEvent
                         )
                     }
+
                     Screen.PROFILE -> ProfileScreen(
                         onBackToWelcome = { currentScreen = Screen.WELCOME }
                     )
+
                     Screen.LEADERBOARD -> LeaderboardScreen(
                         onBackToWelcome = { currentScreen = Screen.WELCOME }
                     )

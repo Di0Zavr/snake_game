@@ -8,11 +8,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.snakegame.auth.AuthState
+import com.example.snakegame.auth.AuthViewModel
 
 @Composable
-fun LoginScreen(onLoginClick: () -> Unit) {
+fun LoginScreen(
+    viewModel: AuthViewModel,
+    onLoginSuccess: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Success) {
+            onLoginSuccess()
+            viewModel.resetState()
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -48,11 +62,20 @@ fun LoginScreen(onLoginClick: () -> Unit) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = onLoginClick,
+                onClick = { viewModel.login(email, password) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Войти")
             }
+
+            if (authState is AuthState.Error) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = (authState as AuthState.Error).error,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
         }
     }
 }
+
