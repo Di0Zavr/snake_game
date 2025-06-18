@@ -44,7 +44,8 @@ import com.example.snakegame.viewmodel.GameResultViewModel
 fun SnakeGameScreen(
     state: SnakeGameState,
     onEvent: (SnakeGameEvent) -> Unit,
-    userId: Int
+    userId: Int,
+    onNavigateToWelcome: () -> Unit // 👈 новый параметр
 ) {
 
     val foodImageBitmap = ImageBitmap.imageResource(id = R.drawable.img_apple)
@@ -89,12 +90,25 @@ fun SnakeGameScreen(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Score: ${state.snake.size - 1}",
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Score: ${state.snake.size - 1}",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Button(
+                        onClick = { onNavigateToWelcome() }
+                    ) {
+                        Text(text = "Home")
+                    }
+                }
             }
+
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()

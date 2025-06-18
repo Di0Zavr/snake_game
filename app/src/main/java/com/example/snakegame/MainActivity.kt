@@ -54,10 +54,13 @@ class MainActivity : ComponentActivity() {
                             SnakeGameScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent,
-                                userId = user!!.id // ✅ передаём id пользователя
+                                userId = user!!.id,
+                                onNavigateToWelcome = { currentScreen = Screen.WELCOME } // ✅ передано
                             )
+
                         }
                     }
+
 
 
                     Screen.PROFILE -> {
@@ -71,9 +74,15 @@ class MainActivity : ComponentActivity() {
                     }
 
 
-                    Screen.LEADERBOARD -> LeaderboardScreen(
-                        onBackToWelcome = { currentScreen = Screen.WELCOME }
-                    )
+                    Screen.LEADERBOARD -> {
+                        val topUsers by authViewModel.topUsers.collectAsStateWithLifecycle(emptyList())
+
+                        LeaderboardScreen(
+                            topUsers = topUsers,
+                            onBackToWelcome = { currentScreen = Screen.WELCOME }
+                        )
+                    }
+
                 }
             }
         }
