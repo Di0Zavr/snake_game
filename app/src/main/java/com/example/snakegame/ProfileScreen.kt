@@ -7,9 +7,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import User
 @Composable
-fun ProfileScreen(onBackToWelcome: () -> Unit) {
+fun ProfileScreen(user: User, onBackToWelcome: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -22,6 +22,8 @@ fun ProfileScreen(onBackToWelcome: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Профиль", fontSize = 32.sp)
+            Spacer(modifier = Modifier.height(32.dp))
+            Text("High Score: ${user.highScore}")
             Spacer(modifier = Modifier.height(32.dp))
             Button(onClick = onBackToWelcome) {
                 Text("На главный экран")

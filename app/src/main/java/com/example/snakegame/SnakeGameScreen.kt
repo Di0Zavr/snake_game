@@ -1,5 +1,6 @@
 package com.example.snakegame
 
+import android.app.Application
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
@@ -37,11 +38,13 @@ import androidx.compose.ui.unit.dp
 import com.example.snakegame.ui.theme.Citrine
 import com.example.snakegame.ui.theme.Custard
 import com.example.snakegame.ui.theme.RoyalBlue
+import com.example.snakegame.viewmodel.GameResultViewModel
 
 @Composable
 fun SnakeGameScreen(
     state: SnakeGameState,
-    onEvent: (SnakeGameEvent) -> Unit
+    onEvent: (SnakeGameEvent) -> Unit,
+    userId: Int
 ) {
 
     val foodImageBitmap = ImageBitmap.imageResource(id = R.drawable.img_apple)
@@ -55,6 +58,7 @@ fun SnakeGameScreen(
     val context = LocalContext.current
     val foodSoundMP = remember { MediaPlayer.create(context, R.raw.food) }
     val gameOverSoundMP = remember { MediaPlayer.create(context, R.raw.gameover) }
+    val resultViewModel = remember { GameResultViewModel(context.applicationContext as Application) }
 
     LaunchedEffect(key1 = state.snake.size) {
         if (state.snake.size != 1) {
@@ -64,7 +68,10 @@ fun SnakeGameScreen(
 
     LaunchedEffect(key1 = state.isGameOver) {
         if (state.isGameOver) {
-            gameOverSoundMP?.start()
+            resultViewModel.saveResult(
+                userId = userId,
+                score = state.snake.size - 1
+            )
         }
     }
 

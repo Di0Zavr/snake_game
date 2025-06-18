@@ -9,6 +9,7 @@ import com.example.snakegame.auth.AuthViewModel
 import com.example.snakegame.auth.AuthViewModelFactory
 import com.example.snakegame.ui.theme.SnakeGameTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlin.Int
 
 class MainActivity : ComponentActivity() {
 
@@ -47,15 +48,28 @@ class MainActivity : ComponentActivity() {
                     Screen.GAME -> {
                         val viewModel = viewModel<SnakeGameViewModel>()
                         val state by viewModel.state.collectAsStateWithLifecycle()
-                        SnakeGameScreen(
-                            state = state,
-                            onEvent = viewModel::onEvent
-                        )
+                        val user by authViewModel.currentUser.collectAsStateWithLifecycle()
+
+                        if (user != null) {
+                            SnakeGameScreen(
+                                state = state,
+                                onEvent = viewModel::onEvent,
+                                userId = user!!.id // ✅ передаём id пользователя
+                            )
+                        }
                     }
 
-                    Screen.PROFILE -> ProfileScreen(
-                        onBackToWelcome = { currentScreen = Screen.WELCOME }
-                    )
+
+                    Screen.PROFILE -> {
+                        val user by authViewModel.currentUser.collectAsStateWithLifecycle()
+                        user?.let {
+                            ProfileScreen(
+                                user = it,
+                                onBackToWelcome = { currentScreen = Screen.WELCOME }
+                            )
+                        }
+                    }
+
 
                     Screen.LEADERBOARD -> LeaderboardScreen(
                         onBackToWelcome = { currentScreen = Screen.WELCOME }

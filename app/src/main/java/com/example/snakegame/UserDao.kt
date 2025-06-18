@@ -12,4 +12,8 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE email = :email")
     suspend fun getUserByEmail(email: String): User?
+
+    @Query("UPDATE users SET high_score = :highScore WHERE id = :userId")
+    suspend fun updateHighScore(userId: Int, highScore: Int)
+
 }
