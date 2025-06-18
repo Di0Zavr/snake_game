@@ -1,14 +1,15 @@
 package com.example.snakegame.ui.components
 
+import User
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.snakegame.R
 import com.example.snakegame.ui.theme.BackgroundColor
 import com.example.snakegame.ui.theme.ButtonGreenColor
@@ -17,6 +18,7 @@ import com.example.snakegame.ui.theme.ButtonLightBlueColor
 
 @Composable
 fun LeaderboardScreen(
+    topUsers: List<User>,
     onPlayClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -35,11 +37,10 @@ fun LeaderboardScreen(
 
         Spacer(modifier = Modifier.height(54.dp))
 
-        // убрать цикл, добавить получение юзернеймов и вставлять в текстбоксы
-        repeat(5) { index ->
+        topUsers.forEachIndexed { index, user ->
             if (index != 0) Spacer(modifier = Modifier.height(12.dp))
             MenuTextBox(
-                text = stringResource(id = R.string.leader_line_string),
+                text = "${user.name} — ${user.highScore}",
                 backgroundColor = ButtonGreyColor
             )
         }

@@ -1,21 +1,29 @@
 package com.example.snakegame.ui.components
 
+import User
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.snakegame.R
 import com.example.snakegame.ui.theme.BackgroundColor
 import com.example.snakegame.ui.theme.ButtonGreyColor
+import com.example.snakegame.ui.theme.ButtonLightBlueColor
 import com.example.snakegame.ui.theme.ButtonRedColor
 
 @Composable
 fun ProfileScreen(
+    user: User,
     onChangePasswordClick: () -> Unit,
     onBackToMenuClick: () -> Unit,
     onLogoutClick: () -> Unit
@@ -35,11 +43,18 @@ fun ProfileScreen(
             modifier = Modifier.size(360.dp)
         )
 
+        Spacer(modifier = Modifier.height(24.dp))
+
+        MenuTextBox(
+            text = "High Score: ${user.highScore}",
+            backgroundColor = ButtonLightBlueColor
+        )
+
         Spacer(modifier = Modifier.height(54.dp))
 
         MenuButton(
             text = stringResource(id = R.string.change_password_button_string),
-            backgroundColor = ButtonGreyColor,
+            backgroundColor = ButtonRedColor,
             onClick = onChangePasswordClick
         )
 

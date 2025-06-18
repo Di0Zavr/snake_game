@@ -31,7 +31,7 @@ import com.example.snakegame.ui.theme.LoginTextBoxBackgroundColor
 import kotlinx.coroutines.delay
 
 @Composable
-fun RegistrationScreen(
+fun RegisterScreen(
     onLoginOfferClick: () -> Unit
 ) {
     val context = LocalContext.current
