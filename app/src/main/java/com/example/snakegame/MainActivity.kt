@@ -9,11 +9,17 @@ import com.example.snakegame.auth.AuthViewModel
 import com.example.snakegame.auth.AuthViewModelFactory
 import com.example.snakegame.ui.theme.SnakeGameTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.snakegame.ui.components.LeaderboardScreen
+import com.example.snakegame.ui.components.LoginScreen
+import com.example.snakegame.ui.components.MenuScreen
+import com.example.snakegame.ui.components.ProfileScreen
+import com.example.snakegame.ui.components.RegistrationScreen
+import com.example.snakegame.ui.components.SnakeGameScreen
 
 class MainActivity : ComponentActivity() {
 
     enum class Screen {
-        REGISTER, LOGIN, WELCOME, GAME, PROFILE, LEADERBOARD
+        REGISTER, LOGIN, MENU, GAME, PROFILE, LEADERBOARD
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,27 +27,28 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SnakeGameTheme {
-                var currentScreen by remember { mutableStateOf(Screen.REGISTER) }
+                var currentScreen by remember { mutableStateOf(Screen.LOGIN) }
 
-                // 👇 Инициализируем AuthViewModel с factory
                 val authViewModel: AuthViewModel = viewModel(
                     factory = AuthViewModelFactory(application)
                 )
 
                 when (currentScreen) {
-                    Screen.REGISTER -> RegisterScreen(
-                        onRegisterClick = { currentScreen = Screen.LOGIN }
+                    Screen.REGISTER -> RegistrationScreen(
+                        onLoginOfferClick = { currentScreen = Screen.LOGIN }
                     )
 
                     Screen.LOGIN -> LoginScreen(
                         viewModel = authViewModel,
-                        onLoginSuccess = { currentScreen = Screen.WELCOME }
+                        onLoginSuccess = { currentScreen = Screen.MENU },
+                        onForgotPasswordClick = {},
+                        onRegisterClick = { currentScreen = Screen.REGISTER }
                     )
 
-                    Screen.WELCOME -> WelcomeScreen(
-                        onStartClick = { currentScreen = Screen.GAME },
-                        onProfileClick = { currentScreen = Screen.PROFILE },
-                        onLeaderboardClick = { currentScreen = Screen.LEADERBOARD }
+                    Screen.MENU -> MenuScreen (
+                        onPlayClick = { currentScreen = Screen.GAME },
+                        onLeaderboardClick = { currentScreen = Screen.LEADERBOARD },
+                        onProfileClick = { currentScreen = Screen.PROFILE }
                     )
 
                     Screen.GAME -> {
@@ -54,11 +61,14 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Screen.PROFILE -> ProfileScreen(
-                        onBackToWelcome = { currentScreen = Screen.WELCOME }
+                        onChangePasswordClick = {},
+                        onBackToMenuClick = { currentScreen = Screen.MENU },
+                        onLogoutClick = {}
                     )
 
                     Screen.LEADERBOARD -> LeaderboardScreen(
-                        onBackToWelcome = { currentScreen = Screen.WELCOME }
+                        onPlayClick = { currentScreen = Screen.GAME },
+                        onBackClick = { currentScreen = Screen.MENU }
                     )
                 }
             }

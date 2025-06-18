@@ -1,4 +1,4 @@
-package com.example.snakegame
+package com.example.snakegame.ui.components
 
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
@@ -34,6 +34,12 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.example.snakegame.Coordinate
+import com.example.snakegame.Direction
+import com.example.snakegame.GameState
+import com.example.snakegame.R
+import com.example.snakegame.SnakeGameEvent
+import com.example.snakegame.SnakeGameState
 import com.example.snakegame.ui.theme.Citrine
 import com.example.snakegame.ui.theme.Custard
 import com.example.snakegame.ui.theme.RoyalBlue

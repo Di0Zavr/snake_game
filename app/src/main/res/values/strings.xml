@@ -1,3 +1,40 @@
 <resources>
-    <string name="app_name">Snake Game</string>
+    <string name="app_name">Snake Game Mobile</string>
+    <string name="action_settings">Settings</string>
+    <string name="snake_icon_string">snake_icon</string>
+    <string name="play_button_string">Play</string>
+    <string name="leaderboard_button_string">Leaderboard</string>
+    <string name="profile_button_string">Profile</string>
+    <string name="auth_email_hint">Email</string>
+    <string name="auth_username_hint">Username</string>
+    <string name="auth_password_hint">Password</string>
+    <string name="auth_password_confirm_hint">Repeat Password</string>
+    <string name="forget_password_string">Forget password?</string>
+    <string name="enter_button_string">Enter</string>
+    <string name="register_offer_string">Sign Up</string>
+    <string name="login_offer_string">Sign In</string>
+    <string name="change_password_button_string">Change password</string>
+    <string name="enter_email_to_change_password_message">Enter email from your account to change password</string>
+    <string name="enter_new_password_message">Enter new password</string>
+    <string name="log_out_button_string">Log out</string>
+    <string name="leader_line_string">Nickname - score</string>
+    <string name="back_to_menu_button_string">Back to menu</string>
+    <string name="you_lose_string">You lose</string>
+    <string name="score_text_string">Score:\n1234</string>
+    <string name="continue_button_string">Continue</string>
+    <string name="arrow_down_description_string">arrow_down</string>
+    <string name="arrow_left_description_string">arrow_left</string>
+    <string name="arrow_up_description_string">arrow_up</string>
+    <string name="arrow_right_description_string">arrow_right</string>
+    <string name="exit_button_string">Exit</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
 </resources>
