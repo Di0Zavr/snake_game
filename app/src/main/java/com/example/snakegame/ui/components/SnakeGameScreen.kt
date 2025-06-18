@@ -1,5 +1,6 @@
 package com.example.snakegame.ui.components
 
+import android.app.Application
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
@@ -43,11 +44,14 @@ import com.example.snakegame.SnakeGameState
 import com.example.snakegame.ui.theme.Citrine
 import com.example.snakegame.ui.theme.Custard
 import com.example.snakegame.ui.theme.RoyalBlue
+import com.example.snakegame.viewmodel.GameResultViewModel
 
 @Composable
 fun SnakeGameScreen(
     state: SnakeGameState,
-    onEvent: (SnakeGameEvent) -> Unit
+    onEvent: (SnakeGameEvent) -> Unit,
+    userId: Int,
+    onNavigateToWelcome: () -> Unit // 👈 новый параметр
 ) {
 
     val foodImageBitmap = ImageBitmap.imageResource(id = R.drawable.img_apple)
@@ -61,6 +65,7 @@ fun SnakeGameScreen(
     val context = LocalContext.current
     val foodSoundMP = remember { MediaPlayer.create(context, R.raw.food) }
     val gameOverSoundMP = remember { MediaPlayer.create(context, R.raw.gameover) }
+    val resultViewModel = remember { GameResultViewModel(context.applicationContext as Application) }
 
     LaunchedEffect(key1 = state.snake.size) {
         if (state.snake.size != 1) {
@@ -70,7 +75,10 @@ fun SnakeGameScreen(
 
     LaunchedEffect(key1 = state.isGameOver) {
         if (state.isGameOver) {
-            gameOverSoundMP?.start()
+            resultViewModel.saveResult(
+                userId = userId,
+                score = state.snake.size - 1
+            )
         }
     }
 
@@ -88,12 +96,25 @@ fun SnakeGameScreen(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Score: ${state.snake.size - 1}",
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Score: ${state.snake.size - 1}",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Button(
+                        onClick = { onNavigateToWelcome() }
+                    ) {
+                        Text(text = "Home")
+                    }
+                }
             }
+
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()
